@@ -5,6 +5,8 @@
 
     <data>
         <variable name="foodCartObject" type="com.example.foodorderapp.data.entity.FoodsCart" />
+        <variable name="cartRowTotalPrice" type="Integer" />
+        <variable name="foodsCartAdapterCart" type="com.example.foodorderapp.ui.adapters.FoodsCartAdapter" />
     </data>
 
     <LinearLayout
@@ -16,8 +18,11 @@
             android:id="@+id/recyclerViewRowFood"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            app:cardCornerRadius="5dp">
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginVertical="12dp"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="24dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -27,54 +32,95 @@
                     android:id="@+id/textViewKisiBilgi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text='@{foodCartObject.yemek_adi+" - "+foodCartObject.yemek_fiyat+ " - " +foodCartObject.yemek_siparis_adet}'
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-
-
-                <ImageView
-                    android:id="@+id/imageViewDelete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:textSize="18sp"
+                    android:text='@{foodCartObject.yemek_adi}'
+                    android:textAppearance="@style/ContentText"
+                    app:layout_constraintStart_toEndOf="@+id/imageViewFoodCartCard"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_delete" />
+                    tools:text="Ayran" />
 
-                <Button
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonMinusRow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:text="-"
-                    app:layout_constraintBottom_toBottomOf="@+id/textViewNumberRow"
-                    app:layout_constraintEnd_toStartOf="@+id/textViewNumberRow"
-                    app:layout_constraintTop_toTopOf="@+id/textViewNumberRow" />
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/minus_button_background"
+                    android:fontFamily="@font/ibm_plex_sans_regular"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/minus_sign"
+                    android:textColor="@color/contentTextColor"
+                    android:textSize="20sp"
+                    app:backgroundTint="@null"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageViewFoodCartCard" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonPlusRow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="+"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="36dp"
+                    android:insetBottom="0dp"
+                    android:insetTop="0dp"
+                    android:background="@drawable/plus_button_background"
+                    android:fontFamily="@font/ibm_plex_sans_medium"
+                    android:text="@string/plus_sign"
+                    android:textColor="@color/contentTextColor"
+                    app:backgroundTint="@null"
                     app:layout_constraintBottom_toBottomOf="@+id/textViewNumberRow"
                     app:layout_constraintStart_toEndOf="@+id/textViewNumberRow"
                     app:layout_constraintTop_toTopOf="@+id/textViewNumberRow" />
 
                 <TextView
                     android:id="@+id/textViewNumberRow"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/food_details_number_background"
+                    android:fontFamily="@font/ibm_plex_sans_medium"
+                    android:gravity="center"
+                    android:textColor="@color/contentTextColor"
+                    android:text="@{Integer.toString(foodCartObject.yemek_siparis_adet)}"
+                    app:layout_constraintBottom_toBottomOf="@+id/buttonMinusRow"
+                    app:layout_constraintStart_toEndOf="@+id/buttonMinusRow"
+                    app:layout_constraintTop_toTopOf="@+id/buttonMinusRow"
+                    tools:text="1" />
+
+                <ImageView
+                    android:id="@+id/imageViewFoodCartCard"
+                    android:layout_width="108dp"
+                    android:layout_height="108dp"
+                    android:layout_margin="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ayran" />
+
+                <ImageView
+                    android:id="@+id/imageViewDelete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:text="1"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/textViewKisiBilgi"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textViewKisiBilgi" />
+                    app:layout_constraintTop_toTopOf="@+id/textViewKisiBilgi"
+                    app:srcCompat="@drawable/ic_delete" />
+
+                <TextView
+                    android:id="@+id/textViewCartRowPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text='@{Integer.toString(cartRowTotalPrice) + " ₺"}'
+                    android:textAppearance="@style/ContentText"
+                    app:layout_constraintBottom_toBottomOf="@+id/textViewNumberRow"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textViewNumberRow"
+                    tools:text="3₺" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

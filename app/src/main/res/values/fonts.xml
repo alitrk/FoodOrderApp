@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MainTitle">
+        <item name="android:fontFamily">@font/ibm_plex_sans_semi_bold</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/mainTitleTextColor</item>
+    </style>
+
+    <style name="EditText">
+        <item name="android:fontFamily">@font/ibm_plex_sans_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/editTextTextColor</item>
+    </style>
+
+    <style name="ContentText">
+        <item name="android:fontFamily">@font/ibm_plex_sans_medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/contentTextColor</item>
+    </style>
+
+    <style name="FoodName">
+        <item name="android:fontFamily">@font/ibm_plex_sans_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/contentTextColor</item>
+    </style>
+
+</resources>

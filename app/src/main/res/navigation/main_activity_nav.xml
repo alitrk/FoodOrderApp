@@ -25,6 +25,9 @@
         <argument
             android:name="food"
             app:argType="com.example.foodorderapp.data.entity.Foods" />
+        <action
+            android:id="@+id/action_cartFragment_to_mainPageFragment"
+            app:destination="@id/mainPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/foodDetailsFragment"

@@ -1,11 +1,13 @@
 package com.example.foodorderapp.ui.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.foodorderapp.R
 import com.example.foodorderapp.data.entity.Foods
 import com.example.foodorderapp.databinding.FoodCardDesignBinding
@@ -35,6 +37,8 @@ class FoodsAdapter(var mContext: Context,
         val t = holder.binding
         t.foodObject = food
 
+        showFoodImage(food.yemek_resim_adi,t)
+
         t.recyclerViewRowFood.setOnClickListener {
             val navigate = MainPageFragmentDirections.actionMainPageFragmentToFoodDetailsFragment(food = food)
             Navigation.navigate(it,navigate)
@@ -44,4 +48,11 @@ class FoodsAdapter(var mContext: Context,
     override fun getItemCount(): Int {
         return foodsList.size
     }
+
+    private fun showFoodImage(foodImageName:String, binding: FoodCardDesignBinding){
+        val url = "http://kasimadalan.pe.hu/yemekler/resimler/$foodImageName"
+        Glide.with(mContext).load(url).override(450,450).into(binding.imageViewFood)
+    }
+
+
 }

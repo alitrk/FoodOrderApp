@@ -13,6 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CartViewModel @Inject constructor(var frepo: FoodsRepository): ViewModel() {
     var cartList = MutableLiveData<List<FoodsCart>>()
+    var sortedList = listOf<FoodsCart>()
 
     init {
         showCart("alitrk")
@@ -20,7 +21,8 @@ class CartViewModel @Inject constructor(var frepo: FoodsRepository): ViewModel()
 
     fun showCart(kullanici_adi:String){
         CoroutineScope(Dispatchers.Main).launch {
-            cartList.value = frepo.showCart(kullanici_adi)
+            sortedList = frepo.showCart(kullanici_adi)
+            cartList.value = sortedList.sortedBy { it.yemek_adi }
         }
     }
 

@@ -4,4 +4,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="total">Total</string>
     <string name="add_to_cart">Add to cart</string>
+    <string name="brand_name">The Kitchen ~</string>
+    <string name="editTextString">Search for something tasty...</string>
+    <string name="repeat">Repeat last order</string>
+    <string name="surprise_me">Surprise me</string>
+    <string name="minus_sign">-</string>
+    <string name="plus_sign">+</string>
+    <string name="order">Order</string>
 </resources>

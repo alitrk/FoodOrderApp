@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.foodorderapp.R
 import com.example.foodorderapp.data.entity.FoodsCart
 import com.example.foodorderapp.databinding.FoodsCartCardDesignBinding
@@ -34,12 +35,18 @@ class FoodsCartAdapter (var mContext: Context,
     }
 
     override fun onBindViewHolder(holder: CardCartViewHolder, position: Int) {
+
         val foodCart = foodsList.get(position)
         val t = holder.binding
         t.foodCartObject = foodCart
 
+        var totalPrice = totalPriceCartRow(foodCart)
+        t.cartRowTotalPrice = totalPrice
+        showFoodImage(foodCart.yemek_resim_adi,t)
+
+
         t.imageViewDelete.setOnClickListener {
-            Snackbar.make(it,"${foodCart.yemek_adi} silinsin mi?", Snackbar.LENGTH_LONG)
+            Snackbar.make(it,"Are you sure you want to delete ${foodCart.yemek_adi}?", Snackbar.LENGTH_LONG)
                 .setAction("EVET"){
                     viewModel.delete(foodCart.sepet_yemek_id, foodCart.kullanici_adi)
                 }.show()
@@ -47,11 +54,15 @@ class FoodsCartAdapter (var mContext: Context,
         t.buttonMinusRow.setOnClickListener {
             viewModel.delete(foodCart.sepet_yemek_id, foodCart.kullanici_adi)
             viewModel.addToCart(foodCart.yemek_adi, foodCart.yemek_resim_adi, foodCart.yemek_fiyat, (foodCart.yemek_siparis_adet - 1), foodCart.kullanici_adi)
+            totalPrice = totalPriceCartRow(foodCart)
+            t.cartRowTotalPrice = totalPrice
         }
 
         t.buttonPlusRow.setOnClickListener {
             viewModel.delete(foodCart.sepet_yemek_id, foodCart.kullanici_adi)
             viewModel.addToCart(foodCart.yemek_adi, foodCart.yemek_resim_adi, foodCart.yemek_fiyat, (foodCart.yemek_siparis_adet + 1), foodCart.kullanici_adi)
+            totalPrice = totalPriceCartRow(foodCart)
+            t.cartRowTotalPrice = totalPrice
         }
     }
 
@@ -59,4 +70,15 @@ class FoodsCartAdapter (var mContext: Context,
     override fun getItemCount(): Int {
         return foodsList.size
     }
+
+    private fun showFoodImage(foodImageName:String, binding: FoodsCartCardDesignBinding){
+        val url = "http://kasimadalan.pe.hu/yemekler/resimler/$foodImageName"
+        Glide.with(mContext).load(url).override(108,108).into(binding.imageViewFoodCartCard)
+    }
+
+
+    private fun totalPriceCartRow(foodCartObject: FoodsCart): Int{
+        return (foodCartObject.yemek_fiyat) * (foodCartObject.yemek_siparis_adet)
+    }
+
 }

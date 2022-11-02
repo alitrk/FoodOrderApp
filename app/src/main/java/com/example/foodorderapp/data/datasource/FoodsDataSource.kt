@@ -5,6 +5,7 @@ import com.example.foodorderapp.data.entity.FoodsCart
 import com.example.foodorderapp.retrofit.FoodsDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.EOFException
 
 class FoodsDataSource (var fdao: FoodsDao){
     suspend fun showFoods(): List<Foods> =
@@ -20,7 +21,12 @@ class FoodsDataSource (var fdao: FoodsDao){
 
     suspend fun showCart(kullanici_adi:String): List<FoodsCart> =
         withContext(Dispatchers.IO){
-            fdao.showCart(kullanici_adi).sepet_yemekler
+            try {
+                fdao.showCart(kullanici_adi).sepet_yemekler
+            }catch (e: EOFException){
+                //Log.d("Exception","Cart is empty!")
+                emptyList()
+            }
         }
 
     suspend fun delete(sepet_yemek_id:Int, kullanici_adi: String) = fdao.delete(sepet_yemek_id, kullanici_adi)

@@ -15,7 +15,9 @@ import javax.inject.Inject
 class FoodDetailsViewModel @Inject constructor(var frepo: FoodsRepository): ViewModel() {
 
     var foodsCartList = MutableLiveData<List<FoodsCart>>()
-
+    init {
+        showCart("alitrk")
+    }
     fun addToCart(yemek_adi:String,
                   yemek_resim_adi:String,
                   yemek_fiyat:Int,

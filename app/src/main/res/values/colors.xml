@@ -7,4 +7,16 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="titleBarBackground">#FF1F1F1F</color>
+    <color name="mainTitleTextColor">#FFFFFFFF</color>
+    <color name="editTextBackgroundColor">#FF393939</color>
+    <color name="editTextTextColor">#FFAFAFAF</color>
+    <color name="buttonBackgroundColor">#FFCCFF01</color>
+    <color name="contentTextColor">#FF000000</color>
+    <color name="strokeColor">#FFDEDEDE</color>
+    <color name="mainBackgroundColor">#FFF6F5F8</color>
+    <color name="foodDetailsPriceColor">#FF393939</color>
+    <color name="buttonCartBackgroundColor">#FF1F1F1F</color>
+    <color name="buttonIncrementBackgroundColor">#FFE8E8E8</color>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.foodorderapp.ui.viewmodel
 
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.foodorderapp.data.entity.Foods
@@ -24,4 +25,6 @@ class MainPageViewModel @Inject constructor(var frepo: FoodsRepository): ViewMod
             foodsList.value = frepo.showFoods()
         }
     }
+
+
 }
