@@ -2,7 +2,6 @@ package com.example.foodorderapp.ui.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.foodorderapp.data.entity.Foods
 import com.example.foodorderapp.data.entity.FoodsCart
 import com.example.foodorderapp.data.repo.FoodsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -90,7 +90,6 @@ class FoodDetailsFragment : Fragment() {
                 }
             }
         }
-
         if (tempSum == 0){
             viewModel.addToCart(yemek_adi, yemek_resim_adi, yemek_fiyat, yemek_siparis_adet, kullanici_adi)
         }else{
@@ -102,6 +101,10 @@ class FoodDetailsFragment : Fragment() {
             }
             addToCardSimple(yemek_adi,yemek_resim_adi, yemek_fiyat, (sum+yemek_siparis_adet), kullanici_adi)
         }
+        Snackbar.make(requireView(),"Added to cart successfully",Snackbar.LENGTH_LONG).show()
+        Navigation.navigate(requireView(),R.id.action_foodDetailsFragment_to_mainPageFragment)
+
+
 
     }
     fun addToCardSimple(yemek_adi:String,

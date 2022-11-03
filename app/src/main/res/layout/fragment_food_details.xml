@@ -95,7 +95,7 @@
                     android:layout_height="54dp"
                     android:layout_marginStart="16dp"
                     android:background="@drawable/minus_button_background"
-                    android:fontFamily="@font/ibm_plex_sans_medium"
+                    android:fontFamily="@font/ibm_plex_sans_regular"
                     android:onClick="@{() -> foodDetailsFragment.btnMinusOnClick()}"
                     android:paddingVertical="12dp"
                     android:text="@string/minus_sign"

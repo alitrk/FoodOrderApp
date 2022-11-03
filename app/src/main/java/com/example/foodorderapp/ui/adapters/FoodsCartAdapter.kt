@@ -3,6 +3,7 @@ package com.example.foodorderapp.ui.adapters
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -47,15 +48,24 @@ class FoodsCartAdapter (var mContext: Context,
 
         t.imageViewDelete.setOnClickListener {
             Snackbar.make(it,"Are you sure you want to delete ${foodCart.yemek_adi}?", Snackbar.LENGTH_LONG)
-                .setAction("EVET"){
+                .setAction("Yes"){
                     viewModel.delete(foodCart.sepet_yemek_id, foodCart.kullanici_adi)
                 }.show()
         }
         t.buttonMinusRow.setOnClickListener {
-            viewModel.delete(foodCart.sepet_yemek_id, foodCart.kullanici_adi)
-            viewModel.addToCart(foodCart.yemek_adi, foodCart.yemek_resim_adi, foodCart.yemek_fiyat, (foodCart.yemek_siparis_adet - 1), foodCart.kullanici_adi)
-            totalPrice = totalPriceCartRow(foodCart)
-            t.cartRowTotalPrice = totalPrice
+            if (foodCart.yemek_siparis_adet>1){
+                viewModel.delete(foodCart.sepet_yemek_id, foodCart.kullanici_adi)
+                viewModel.addToCart(foodCart.yemek_adi, foodCart.yemek_resim_adi, foodCart.yemek_fiyat, (foodCart.yemek_siparis_adet - 1), foodCart.kullanici_adi)
+                totalPrice = totalPriceCartRow(foodCart)
+                t.cartRowTotalPrice = totalPrice
+            }else if(foodCart.yemek_siparis_adet==1) {
+                Snackbar.make(it,"Are you sure you want to delete ${foodCart.yemek_adi}?", Snackbar.LENGTH_LONG)
+                    .setAction("Yes"){
+                        viewModel.delete(foodCart.sepet_yemek_id, foodCart.kullanici_adi)
+                    }.show()
+            }else{
+                Snackbar.make(it,"This number cannot be less than 1", Snackbar.LENGTH_LONG).show()
+            }
         }
 
         t.buttonPlusRow.setOnClickListener {

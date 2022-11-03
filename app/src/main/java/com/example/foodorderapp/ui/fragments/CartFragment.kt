@@ -10,19 +10,16 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodorderapp.R
 import com.example.foodorderapp.data.entity.FoodsCart
 import com.example.foodorderapp.databinding.FragmentCartBinding
-import com.example.foodorderapp.ui.adapters.FoodsAdapter
 import com.example.foodorderapp.ui.adapters.FoodsCartAdapter
 import com.example.foodorderapp.ui.viewmodel.CartViewModel
 import com.example.foodorderapp.utils.navigate
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.reflect.Type
+
 
 @AndroidEntryPoint
 class CartFragment : Fragment() {
@@ -47,6 +44,7 @@ class CartFragment : Fragment() {
         binding.buttonOrder.setOnClickListener{
             Snackbar.make(requireView(),"Sipariş alındı",Snackbar.LENGTH_LONG).show()
             Navigation.navigate(requireView(),R.id.action_cartFragment_to_mainPageFragment)
+            saveData()
             for (i in tempList){
                 viewModel.delete(i.sepet_yemek_id, i.kullanici_adi)
             }
@@ -63,6 +61,7 @@ class CartFragment : Fragment() {
     }
 
     private fun totalPrice(list: List<FoodsCart>){
+        totalPrice = 0
         for (i in list){
             totalPrice += (i.yemek_siparis_adet) * (i.yemek_fiyat)
         }
@@ -75,7 +74,11 @@ class CartFragment : Fragment() {
         val json: String = gson.toJson(tempList)
         editor.putString("cartOrderList", json)
         editor.apply()
+        Log.e("anan", json)
+    }
 
+    fun closeOnClick(view: View){
+        Navigation.navigate(view,R.id.action_cartFragment_to_mainPageFragment)
     }
 
 
