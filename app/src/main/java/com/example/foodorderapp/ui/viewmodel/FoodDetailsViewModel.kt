@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.foodorderapp.data.entity.FoodsCart
 import com.example.foodorderapp.data.repo.FoodsRepository
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,8 +15,10 @@ import javax.inject.Inject
 class FoodDetailsViewModel @Inject constructor(var frepo: FoodsRepository): ViewModel() {
 
     var foodsCartList = MutableLiveData<List<FoodsCart>>()
+    private var auth : FirebaseAuth = FirebaseAuth.getInstance()
     init {
-        showCart("alitrk")
+        val userName = auth.currentUser?.email.toString()
+        showCart(userName)
     }
     fun addToCart(yemek_adi:String,
                   yemek_resim_adi:String,

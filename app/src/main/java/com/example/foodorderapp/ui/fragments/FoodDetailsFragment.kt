@@ -18,6 +18,7 @@ import com.example.foodorderapp.ui.adapters.FoodsAdapter
 import com.example.foodorderapp.ui.viewmodel.FoodDetailsViewModel
 import com.example.foodorderapp.utils.navigate
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.absoluteValue
 
@@ -25,10 +26,10 @@ import kotlin.math.absoluteValue
 class FoodDetailsFragment : Fragment() {
     private lateinit var binding: FragmentFoodDetailsBinding
     private lateinit var viewModel: FoodDetailsViewModel
+    private lateinit var auth : FirebaseAuth
     private var foodsCartListDetails: List<FoodsCart> = listOf()
     private var orderNumber = 1
-
-    private val testUserName = "alitrk"
+    private lateinit var  userName: String
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_food_details, container, false)
         binding.foodDetailsFragment = this
@@ -36,7 +37,10 @@ class FoodDetailsFragment : Fragment() {
         val bundle:FoodDetailsFragmentArgs by navArgs()
         val receivedFood = bundle.food
         binding.foodObject = receivedFood
-        binding.testUserName = testUserName
+        auth = FirebaseAuth.getInstance()
+        userName = auth.currentUser?.email.toString()
+
+        binding.userName = userName
 
         binding.foodDetailsNumber = orderNumber
 

@@ -11,4 +11,13 @@
     <string name="minus_sign">-</string>
     <string name="plus_sign">+</string>
     <string name="order">Order</string>
+    <string name="log_in">Sign in</string>
+    <string name="get_started_with_the_kitchen">Get started with The Kitchen ~</string>
+    <string name="login_text">We picked the best food for you</string>
+    <string name="sign_in_content">Only one step left to meet the kitchen delicacies Sign in with Google</string>
+    <string name="google_sign_in">Continue with Google</string>
+    <string name="log_out">Log out</string>
+    <string name="signed_in">You are currently signed in as </string>
+    <string name="continue_to_explore">Continue to explore</string>
+    <string name="your_order_has_been_received_successfully">Your order has been received successfully</string>
 </resources>
