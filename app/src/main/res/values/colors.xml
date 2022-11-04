@@ -19,4 +19,5 @@
     <color name="foodDetailsPriceColor">#FF393939</color>
     <color name="buttonCartBackgroundColor">#FF1F1F1F</color>
     <color name="buttonIncrementBackgroundColor">#FFE8E8E8</color>
+    <color name="buttonLogout">#FFE3230D</color>
 </resources>

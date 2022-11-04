@@ -41,14 +41,6 @@ class CartFragment : Fragment() {
             }
         }
 
-        binding.buttonOrder.setOnClickListener{
-            Snackbar.make(requireView(),"Sipariş alındı",Snackbar.LENGTH_LONG).show()
-            Navigation.navigate(requireView(),R.id.action_cartFragment_to_mainPageFragment)
-            saveData()
-            for (i in tempList){
-                viewModel.delete(i.sepet_yemek_id, i.kullanici_adi)
-            }
-        }
         return binding.root
     }
 
@@ -58,6 +50,14 @@ class CartFragment : Fragment() {
         val tempViewModel:CartViewModel by viewModels()
         viewModel = tempViewModel
 
+    }
+
+    fun buttonOrderOnClick(view: View){
+        Navigation.navigate(view,R.id.action_cartFragment_to_orderFragment)
+        saveData()
+        for (i in tempList){
+            viewModel.delete(i.sepet_yemek_id, i.kullanici_adi)
+        }
     }
 
     private fun totalPrice(list: List<FoodsCart>){
@@ -74,7 +74,6 @@ class CartFragment : Fragment() {
         val json: String = gson.toJson(tempList)
         editor.putString("cartOrderList", json)
         editor.apply()
-        Log.e("anan", json)
     }
 
     fun closeOnClick(view: View){

@@ -7,7 +7,7 @@
         <variable name="foodDetailsToolbarTitle" type="String" />
         <variable name="foodDetailsNumber" type="Integer" />
         <variable name="totalPrice" type="Integer" />
-        <variable name="testUserName" type="String" />
+        <variable name="userName" type="String" />
         <variable name="foodDetailsFragment" type="com.example.foodorderapp.ui.fragments.FoodDetailsFragment" />
         <variable name="foodObject" type="com.example.foodorderapp.data.entity.Foods" />
     </data>
@@ -133,7 +133,7 @@
                     android:layout_height="54dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="24dp"
-                    android:onClick="@{() -> foodDetailsFragment.addToCard(foodObject.yemek_adi, foodObject.yemek_resim_adi, foodObject.yemek_fiyat, foodDetailsNumber, testUserName)}"
+                    android:onClick="@{() -> foodDetailsFragment.addToCard(foodObject.yemek_adi, foodObject.yemek_resim_adi, foodObject.yemek_fiyat, foodDetailsNumber, userName)}"
                     android:paddingVertical="12dp"
                     android:text='@{"Add to Cart" + "       " + totalPrice + "₺"}'
                     tools:text = "Add to Cart           35₺"

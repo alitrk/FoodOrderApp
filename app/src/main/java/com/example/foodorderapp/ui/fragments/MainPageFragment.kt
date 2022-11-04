@@ -73,6 +73,10 @@ class MainPageFragment : Fragment(),SearchView.OnQueryTextListener {
         Navigation.navigate(view,R.id.action_mainPageFragment_to_cartFragment)
     }
 
+    fun fabOnClick(view:View){
+        Navigation.navigate(view,R.id.action_mainPageFragment_to_accountFragment)
+    }
+
     fun surpriseMeOnClick(view: View){
         val foodsList = viewModel.foodsList.value!!
         val random =  Random.nextInt(0, foodsList.size)
