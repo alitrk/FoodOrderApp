@@ -13,6 +13,37 @@
         android:layout_height="match_parent"
         tools:context=".ui.fragments.CartFragment">
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/title_bar_background">
+
+                <TextView
+                    android:id="@+id/textViewAccountTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/account"
+                    android:textAppearance="@style/MainTitle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardView"
             style="@style/CustomCardViewStyle"
@@ -56,16 +87,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="48dp"
-            android:gravity="center"
-            android:textSize="20sp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
-            tools:text = "@string/signed_in"
-            android:textAppearance="@style/ContentText"
+            android:gravity="center"
             android:text='@{@string/signed_in +"\n" + userEmail}'
+            android:textAppearance="@style/ContentText"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/cardViewTop"
+            tools:text="@string/signed_in" />
 
         <ImageView
             android:id="@+id/imageView"

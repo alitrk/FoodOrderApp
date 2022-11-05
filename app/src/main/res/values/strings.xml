@@ -20,4 +20,5 @@
     <string name="signed_in">You are currently signed in as </string>
     <string name="continue_to_explore">Continue to explore</string>
     <string name="your_order_has_been_received_successfully">Your order has been received successfully</string>
+    <string name="account">Account</string>
 </resources>

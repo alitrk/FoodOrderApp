@@ -41,14 +41,16 @@
         <item name="cornerSizeTopLeft">16dp</item>
     </style>
 
-    <style name="SearchViewMy" parent="Widget.AppCompat.Light.SearchView">
-        <item name="android:textSize">14sp</item>
-    </style>
 
-    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen.IconBackground">
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen</item>
         <item name="postSplashScreenTheme">@style/Theme.FoodOrderApp</item>
         <item name="windowSplashScreenBackground">@color/titleBarBackground</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/editTextBackgroundColor</item>"
+    </style>
+
+    <style name="SearchViewStyle" parent="Widget.AppCompat.Light.SearchView">
+        <item name="android:textSize">14sp</item>
     </style>
 
 </resources>

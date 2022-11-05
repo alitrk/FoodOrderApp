@@ -87,6 +87,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
+            android:gravity="center"
             android:text="@string/your_order_has_been_received_successfully"
             android:textAppearance="@style/ContentText"
             android:textSize="20sp"

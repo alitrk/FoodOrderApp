@@ -5,6 +5,7 @@
 
     <data>
         <variable name="mainPageFragmentTitle" type="com.example.foodorderapp.ui.fragments.MainPageFragment" />
+        <variable name="cartText" type="String" />
     </data>
 
     <FrameLayout
@@ -45,7 +46,7 @@
                     <androidx.appcompat.widget.SearchView
                         android:id="@+id/searchView"
                         android:layout_width="0dp"
-                        android:theme="@style/SearchViewMy"
+                        android:theme="@style/SearchViewStyle"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="16dp"
@@ -69,16 +70,17 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/buttonCart"
-                        android:layout_width="56dp"
+                        android:layout_width="72dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="24dp"
                         android:background="@drawable/button_background"
                         android:drawableLeft="@drawable/ic_cart"
-                        android:drawablePadding="5dp"
-                        android:textColor="@color/editTextBackgroundColor"
+                        android:text="@{cartText}"
                         android:textSize="14sp"
-                        app:backgroundTint="@null"
+                        android:drawablePadding="5dp"
                         android:onClick="@{() -> mainPageFragmentTitle.cartOnClick(buttonCart)}"
+                        android:textColor="@color/editTextBackgroundColor"
+                        app:backgroundTint="@null"
                         app:layout_constraintBottom_toBottomOf="@+id/textViewToolBarTitle"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/textViewToolBarTitle" />
@@ -102,7 +104,7 @@
                     android:elevation="6dp"
                     android:layout_marginBottom="8dp">
 
-                    <com.google.android.material.button.MaterialButton
+                    <Button
                         android:id="@+id/buttonRepeatLastOrder"
                         style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="match_parent"
@@ -110,11 +112,11 @@
                         android:drawableLeft="@drawable/ic_repeat"
                         android:paddingVertical="8dp"
                         android:paddingStart="24dp"
+                        android:textAppearance="@style/ContentText"
                         android:onClick="@{() -> mainPageFragmentTitle.repeatLastOnClick(buttonRepeatLastOrder)}"
                         android:paddingTop="8dp"
                         android:text="@string/repeat"
                         android:textAlignment="textStart"
-                        android:textAppearance="@style/ContentText"
                         android:textColor="@color/contentTextColor"
                         app:iconPadding="8dp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -132,19 +134,19 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/buttonRepeatLastOrder" />
 
-                    <com.google.android.material.button.MaterialButton
+                    <Button
                         android:id="@+id/buttonSurpriseMe"
                         style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/ic_question_mark"
+                        android:textAppearance="@style/ContentText"
                         android:paddingVertical="8dp"
                         android:paddingStart="24dp"
                         android:paddingTop="8dp"
                         android:text="@string/surprise_me"
                         android:onClick="@{() -> mainPageFragmentTitle.surpriseMeOnClick(buttonSurpriseMe)}"
                         android:textAlignment="textStart"
-                        android:textAppearance="@style/ContentText"
                         android:textColor="@color/contentTextColor"
                         app:iconPadding="8dp"
                         app:layout_constraintStart_toStartOf="parent"

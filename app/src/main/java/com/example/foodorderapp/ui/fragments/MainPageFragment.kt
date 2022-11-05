@@ -11,7 +11,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.GridLayoutManager
 import com.example.foodorderapp.R
 import com.example.foodorderapp.data.entity.Foods
 import com.example.foodorderapp.data.entity.FoodsCart
@@ -33,7 +32,8 @@ class MainPageFragment : Fragment(),SearchView.OnQueryTextListener {
     private lateinit var viewModel: MainPageViewModel
     private lateinit var titleBarBinding: TitlebarBinding
     private lateinit var searchView: SearchView
-    private lateinit var adapter:FoodsAdapter
+    private lateinit var adapter: FoodsAdapter
+    private var cartSize = ""
     private var foodOrderList = listOf<FoodsCart>()
     private var foodCartSet= mutableSetOf<FoodsCart>()
     private var foodSet = mutableSetOf<Foods>()
@@ -42,22 +42,21 @@ class MainPageFragment : Fragment(),SearchView.OnQueryTextListener {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_main_page, container, false)
         binding.mainPageFragment = this
         titleBarBinding = binding.include
-        binding.rv.layoutManager = GridLayoutManager(context,2)
         searchView = titleBarBinding.searchView
-        searchView.clearFocus()
         searchView.setOnQueryTextListener(this@MainPageFragment)
 
 
+        viewModel.cartList.observe(viewLifecycleOwner){
+            foodCartSet.addAll(it)
+            cartSizeFun(foodCartSet)
+        }
+
         viewModel.foodsList.observe(viewLifecycleOwner){
-            if (it!=null){
+            if (it.isNotEmpty()){
                 adapter = FoodsAdapter(requireContext(),it,viewModel)
                 binding.foodsAdapter = adapter
                 foodSet.addAll(it)
             }
-        }
-
-        viewModel.cartList.observe(viewLifecycleOwner){
-            foodCartSet.addAll(it)
         }
 
         return binding.root
@@ -80,14 +79,12 @@ class MainPageFragment : Fragment(),SearchView.OnQueryTextListener {
     fun surpriseMeOnClick(view: View){
         val foodsList = viewModel.foodsList.value!!
         val random =  Random.nextInt(0, foodsList.size)
-        val food = foodsList.get(random)
+        val food = foodsList[random]
         val navigate =  MainPageFragmentDirections.actionMainPageFragmentToFoodDetailsFragment(food = food)
         Navigation.navigate(view,navigate)
     }
 
     fun repeatLastOnClick(view: View){
-
-
         if (foodCartSet.isEmpty()){
             val sharedPreferences = requireContext().getSharedPreferences("shared preferences", MODE_PRIVATE)
             val gson = Gson()
@@ -116,7 +113,7 @@ class MainPageFragment : Fragment(),SearchView.OnQueryTextListener {
     }
 
     private fun filterList(newText: String) {
-        var filteredList = arrayListOf<Foods>()
+        val filteredList = arrayListOf<Foods>()
         for (i in foodSet){
             if (i.yemek_adi.lowercase().contains(newText.lowercase())){
                 filteredList.add(i)
@@ -128,6 +125,11 @@ class MainPageFragment : Fragment(),SearchView.OnQueryTextListener {
             adapter.setFilteredList(filteredList)
 
         }
+    }
+
+    fun cartSizeFun(foodCartSet: MutableSet<FoodsCart>) {
+        cartSize = foodCartSet.size.toString()
+        binding.cartText = cartSize
     }
 
 
