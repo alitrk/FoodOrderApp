@@ -29,6 +29,8 @@ class FoodDetailsFragment : Fragment() {
     private lateinit var auth : FirebaseAuth
     private var foodsCartListDetails: List<FoodsCart> = listOf()
     private var orderNumber = 1
+    private var cartSizeFood = ""
+    private var foodCartSet= mutableSetOf<FoodsCart>()
     private lateinit var  userName: String
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_food_details, container, false)
@@ -39,19 +41,23 @@ class FoodDetailsFragment : Fragment() {
         binding.foodObject = receivedFood
         auth = FirebaseAuth.getInstance()
         userName = auth.currentUser?.email.toString()
-
         binding.userName = userName
-
         binding.foodDetailsNumber = orderNumber
-
         showFoodImage(receivedFood.yemek_resim_adi)
 
         binding.totalPrice = totalPrice(orderNumber,receivedFood.yemek_fiyat)
         viewModel.foodsCartList.observe(viewLifecycleOwner){
             foodsCartListDetails = it
+            foodCartSet.addAll(it)
+            cartSizeFun(foodCartSet)
         }
 
         return binding.root
+    }
+
+    private fun cartSizeFun(foodCartSet: MutableSet<FoodsCart>) {
+        cartSizeFood = foodCartSet.size.toString()
+        binding.cartTextDesign = cartSizeFood
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,9 +74,7 @@ class FoodDetailsFragment : Fragment() {
             binding.totalPrice = totalPrice(orderNumber,binding.foodObject!!.yemek_fiyat)
         }else{
             Snackbar.make(requireView(), "This number cannot be less than 1", Snackbar.LENGTH_LONG).show()
-
         }
-
     }
 
     fun btnPlusOnClick(){
@@ -131,8 +135,5 @@ class FoodDetailsFragment : Fragment() {
     fun cartOnClickDetails(view:View){
         Navigation.navigate(view,R.id.action_foodDetailsFragment_to_cartFragment)
     }
-
-
-
 
 }

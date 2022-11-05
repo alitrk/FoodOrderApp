@@ -4,6 +4,7 @@
 
     <data>
         <variable name="foodDetailsFragmentTitle" type="com.example.foodorderapp.ui.fragments.FoodDetailsFragment"/>
+        <variable name="cartTextDetailsTitle" type="String" />
     </data>
 
     <FrameLayout
@@ -45,7 +46,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/buttonCartDetails"
-                        android:layout_width="56dp"
+                        android:layout_width="72dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="24dp"
                         android:background="@drawable/button_background"
@@ -53,6 +54,7 @@
                         android:drawablePadding="5dp"
                         android:textColor="@color/editTextBackgroundColor"
                         android:textSize="14sp"
+                        android:text="@{cartTextDetailsTitle}"
                         android:onClick="@{() -> foodDetailsFragmentTitle.cartOnClickDetails(buttonCartDetails)}"
                         app:backgroundTint="@null"
                         app:layout_constraintBottom_toBottomOf="@+id/textViewToolBarTitle"

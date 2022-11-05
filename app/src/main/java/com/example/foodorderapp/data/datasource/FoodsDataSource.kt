@@ -1,5 +1,6 @@
 package com.example.foodorderapp.data.datasource
 
+import android.util.Log
 import com.example.foodorderapp.data.entity.Foods
 import com.example.foodorderapp.data.entity.FoodsCart
 import com.example.foodorderapp.retrofit.FoodsDao
@@ -10,7 +11,12 @@ import java.io.EOFException
 class FoodsDataSource (var fdao: FoodsDao){
     suspend fun showFoods(): List<Foods> =
         withContext(Dispatchers.IO){
-            fdao.showFoods().yemekler
+            try {
+                fdao.showFoods().yemekler
+            }catch (e: Exception){
+                emptyList()
+            }
+
         }
 
     suspend fun addToCart(yemek_adi:String,

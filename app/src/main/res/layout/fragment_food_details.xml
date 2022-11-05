@@ -8,6 +8,7 @@
         <variable name="foodDetailsNumber" type="Integer" />
         <variable name="totalPrice" type="Integer" />
         <variable name="userName" type="String" />
+        <variable name="cartTextDesign" type="String" />
         <variable name="foodDetailsFragment" type="com.example.foodorderapp.ui.fragments.FoodDetailsFragment" />
         <variable name="foodObject" type="com.example.foodorderapp.data.entity.Foods" />
     </data>
@@ -24,7 +25,8 @@
             app:foodDetailsFragmentTitle = "@{foodDetailsFragment}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:cartTextDetailsTitle = "@{cartTextDesign}"/>
 
         <com.google.android.material.card.MaterialCardView
             style="@style/CustomCardViewStyle"
