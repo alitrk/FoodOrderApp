@@ -16,7 +16,6 @@ class FoodsDataSource (var fdao: FoodsDao){
             }catch (e: Exception){
                 emptyList()
             }
-
         }
 
     suspend fun addToCart(yemek_adi:String,

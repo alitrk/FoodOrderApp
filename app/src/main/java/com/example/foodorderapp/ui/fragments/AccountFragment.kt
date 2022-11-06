@@ -1,5 +1,6 @@
 package com.example.foodorderapp.ui.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -34,6 +35,8 @@ class AccountFragment : Fragment() {
             .build()
 
 
+
+
         googleSignInClient = GoogleSignIn.getClient(requireActivity(),gso)
 
 
@@ -42,12 +45,14 @@ class AccountFragment : Fragment() {
 
     fun logOutOnClick(view: View){
 
-        Snackbar.make(view,"Are you sure you want to log out ?", Snackbar.LENGTH_LONG)
+        val snackbar = Snackbar.make(view,"Are you sure you want to log out ?", Snackbar.LENGTH_LONG)
             .setAction("Yes"){
                 auth.signOut()
                 googleSignInClient.signOut()
                 Navigation.navigate(view,R.id.action_accountFragment_to_signInFragment)
-            }.show()
+            }
+        snackbar.setActionTextColor(Color.WHITE)
+        snackbar.show()
 
     }
 }

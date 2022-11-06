@@ -1,6 +1,7 @@
 package com.example.foodorderapp.ui.adapters
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -47,10 +48,13 @@ class FoodsCartAdapter (var mContext: Context,
 
 
         t.imageViewDelete.setOnClickListener {
-            Snackbar.make(it,"Are you sure you want to delete ${foodCart.yemek_adi}?", Snackbar.LENGTH_LONG)
-                .setAction("Yes"){
+            val snackbar = Snackbar.make(it,"Are you sure you want to delete ${foodCart.yemek_adi}?", Snackbar.LENGTH_LONG)
+                .setAction("Yes") {
                     viewModel.delete(foodCart.sepet_yemek_id, foodCart.kullanici_adi)
-                }.show()
+                }
+            snackbar.setActionTextColor(Color.WHITE)
+            snackbar.show()
+
         }
         t.buttonMinusRow.setOnClickListener {
             if (foodCart.yemek_siparis_adet>1){
@@ -59,10 +63,12 @@ class FoodsCartAdapter (var mContext: Context,
                 totalPrice = totalPriceCartRow(foodCart)
                 t.cartRowTotalPrice = totalPrice
             }else if(foodCart.yemek_siparis_adet==1) {
-                Snackbar.make(it,"Are you sure you want to delete ${foodCart.yemek_adi}?", Snackbar.LENGTH_LONG)
+                val snackbar = Snackbar.make(it,"Are you sure you want to delete ${foodCart.yemek_adi}?", Snackbar.LENGTH_LONG)
                     .setAction("Yes"){
                         viewModel.delete(foodCart.sepet_yemek_id, foodCart.kullanici_adi)
-                    }.show()
+                    }
+                snackbar.setActionTextColor(Color.WHITE)
+                snackbar.show()
             }else{
                 Snackbar.make(it,"This number cannot be less than 1", Snackbar.LENGTH_LONG).show()
             }

@@ -19,22 +19,26 @@ class MainPageViewModel @Inject constructor(var frepo: FoodsRepository): ViewMod
     var foodsList = MutableLiveData<List<Foods>>()
     var cartList = MutableLiveData<List<FoodsCart>>()
     private var auth : FirebaseAuth = FirebaseAuth.getInstance()
+    private var userName: String = auth.currentUser?.email.toString()
 
     init {
         showFoods()
-        val userName = auth.currentUser?.email.toString()
         showCart(userName)
     }
 
     fun showFoods(){
         CoroutineScope(Dispatchers.Main).launch {
-            foodsList.value = frepo.showFoods()
+            if (frepo.showFoods().isNotEmpty()){
+                foodsList.value = frepo.showFoods()
+            }
         }
     }
 
     fun showCart(kullanici_adi:String) {
         CoroutineScope(Dispatchers.Main).launch {
-            cartList.value = frepo.showCart(kullanici_adi)
+            if(frepo.showFoods().isNotEmpty()){
+                cartList.value = frepo.showCart(kullanici_adi)
+            }
         }
     }
 
