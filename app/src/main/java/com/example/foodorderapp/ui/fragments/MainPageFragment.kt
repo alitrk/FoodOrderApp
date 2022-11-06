@@ -56,6 +56,8 @@ class MainPageFragment : Fragment(),SearchView.OnQueryTextListener {
                 adapter = FoodsAdapter(requireContext(),it,viewModel)
                 binding.foodsAdapter = adapter
                 foodSet.addAll(it)
+            }else{
+                binding.rv.visibility = View.GONE
             }
         }
 
@@ -119,11 +121,10 @@ class MainPageFragment : Fragment(),SearchView.OnQueryTextListener {
                 filteredList.add(i)
             }
         }
-        if (filteredList.isEmpty()){
+        if (filteredList.isNotEmpty()){
             adapter.setFilteredList(filteredList)
         }else{
             adapter.setFilteredList(filteredList)
-
         }
     }
 

@@ -30,7 +30,6 @@ class CartFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_cart, container, false)
         binding.cartFragment = this
-
         viewModel.cartList.observe(viewLifecycleOwner){
             if (it!=null){
                 val adapter = FoodsCartAdapter(requireContext(),it,viewModel)

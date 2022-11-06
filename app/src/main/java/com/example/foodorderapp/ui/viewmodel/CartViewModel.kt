@@ -16,9 +16,10 @@ class CartViewModel @Inject constructor(var frepo: FoodsRepository): ViewModel()
     var cartList = MutableLiveData<List<FoodsCart>>()
     var sortedList = listOf<FoodsCart>()
     private var auth : FirebaseAuth = FirebaseAuth.getInstance()
+    private var userName: String = auth.currentUser?.email.toString()
+
 
     init {
-        val userName = auth.currentUser?.email.toString()
         showCart(userName)
     }
 
