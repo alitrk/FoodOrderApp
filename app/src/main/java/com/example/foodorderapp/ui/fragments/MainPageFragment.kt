@@ -91,15 +91,20 @@ class MainPageFragment : Fragment(),SearchView.OnQueryTextListener {
             val sharedPreferences = requireContext().getSharedPreferences("shared preferences", MODE_PRIVATE)
             val gson = Gson()
             val json = sharedPreferences.getString("cartOrderList", null)
-            val type: Type = object : TypeToken<ArrayList<FoodsCart?>?>() {}.type
+            if (json.isNullOrEmpty()) {
+                Snackbar.make(requireView(), "Last order not found", Snackbar.LENGTH_LONG).show()
+            }else{
+                val type: Type = object : TypeToken<ArrayList<FoodsCart?>?>() {}.type
 
-            foodOrderList = gson.fromJson<Any>(json, type) as ArrayList<FoodsCart>
+                foodOrderList = gson.fromJson<Any>(json, type) as ArrayList<FoodsCart>
 
-            for (i in foodOrderList){
-                viewModel.addToCart(i.yemek_adi,i.yemek_resim_adi,i.yemek_fiyat,i.yemek_siparis_adet,i.kullanici_adi)
+                for (i in foodOrderList){
+                    viewModel.addToCart(i.yemek_adi,i.yemek_resim_adi,i.yemek_fiyat,i.yemek_siparis_adet,i.kullanici_adi)
+                }
+                Navigation.navigate(view,R.id.action_mainPageFragment_to_cartFragment)
+                Snackbar.make(requireView(),"Last order repeated!",Snackbar.LENGTH_LONG).show()
             }
-            Navigation.navigate(view,R.id.action_mainPageFragment_to_cartFragment)
-            Snackbar.make(requireView(),"Last order repeated!",Snackbar.LENGTH_LONG).show()
+
         }else{
             Snackbar.make(requireView(),"The cart must be empty!",Snackbar.LENGTH_LONG).show()
         }
