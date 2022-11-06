@@ -54,10 +54,9 @@ class FoodsAdapter(var mContext: Context,
     }
 
     fun setFilteredList(filteredList: List<Foods>){
-        if (foodsList.isNotEmpty()){
-            foodsList = filteredList
-            notifyDataSetChanged()
-        }
+        foodsList = filteredList
+        notifyDataSetChanged()
+
     }
 
 
