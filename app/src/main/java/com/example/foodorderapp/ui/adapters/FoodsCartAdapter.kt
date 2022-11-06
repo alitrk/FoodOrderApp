@@ -57,6 +57,7 @@ class FoodsCartAdapter (var mContext: Context,
 
         }
         t.buttonMinusRow.setOnClickListener {
+            t.buttonMinusRow.isEnabled = false
             if (foodCart.yemek_siparis_adet>1){
                 viewModel.delete(foodCart.sepet_yemek_id, foodCart.kullanici_adi)
                 viewModel.addToCart(foodCart.yemek_adi, foodCart.yemek_resim_adi, foodCart.yemek_fiyat, (foodCart.yemek_siparis_adet - 1), foodCart.kullanici_adi)
@@ -72,9 +73,11 @@ class FoodsCartAdapter (var mContext: Context,
             }else{
                 Snackbar.make(it,"This number cannot be less than 1", Snackbar.LENGTH_LONG).show()
             }
+
         }
 
         t.buttonPlusRow.setOnClickListener {
+            t.buttonPlusRow.isEnabled = false
             viewModel.delete(foodCart.sepet_yemek_id, foodCart.kullanici_adi)
             viewModel.addToCart(foodCart.yemek_adi, foodCart.yemek_resim_adi, foodCart.yemek_fiyat, (foodCart.yemek_siparis_adet + 1), foodCart.kullanici_adi)
             totalPrice = totalPriceCartRow(foodCart)

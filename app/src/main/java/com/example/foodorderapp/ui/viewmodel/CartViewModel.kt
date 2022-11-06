@@ -33,7 +33,6 @@ class CartViewModel @Inject constructor(var frepo: FoodsRepository): ViewModel()
     fun delete(sepet_yemek_id:Int, kullanici_adi: String){
         CoroutineScope(Dispatchers.Main).launch{
             frepo.delete(sepet_yemek_id, kullanici_adi)
-
             showCart(kullanici_adi)
         }
     }

@@ -1,6 +1,5 @@
 package com.example.foodorderapp.data.datasource
 
-import android.util.Log
 import com.example.foodorderapp.data.entity.Foods
 import com.example.foodorderapp.data.entity.FoodsCart
 import com.example.foodorderapp.retrofit.FoodsDao
