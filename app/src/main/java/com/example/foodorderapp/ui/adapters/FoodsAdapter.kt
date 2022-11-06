@@ -1,5 +1,6 @@
 package com.example.foodorderapp.ui.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -53,6 +54,7 @@ class FoodsAdapter(var mContext: Context,
         Glide.with(mContext).load(url).override(450,450).into(binding.imageViewFood)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setFilteredList(filteredList: List<Foods>){
         foodsList = filteredList
         notifyDataSetChanged()
