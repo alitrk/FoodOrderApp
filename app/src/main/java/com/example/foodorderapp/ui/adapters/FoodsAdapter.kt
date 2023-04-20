@@ -12,12 +12,12 @@ import com.example.foodorderapp.R
 import com.example.foodorderapp.data.entity.Foods
 import com.example.foodorderapp.databinding.FoodCardDesignBinding
 import com.example.foodorderapp.ui.fragments.MainPageFragmentDirections
-import com.example.foodorderapp.ui.viewmodel.MainPageViewModel
 import com.example.foodorderapp.utils.navigate
 
-class FoodsAdapter(var mContext: Context,
-                   var foodsList: List<Foods>,
-                   var viewModel: MainPageViewModel)
+class FoodsAdapter(
+    var mContext: Context,
+    var foodsList: List<Foods>
+)
     : RecyclerView.Adapter<FoodsAdapter.CardViewHolder>() {
 
     inner class CardViewHolder(binding:FoodCardDesignBinding) : RecyclerView.ViewHolder(binding.root){

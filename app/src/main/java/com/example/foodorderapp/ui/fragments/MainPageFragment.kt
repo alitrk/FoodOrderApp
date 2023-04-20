@@ -2,13 +2,12 @@ package com.example.foodorderapp.ui.fragments
 
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.example.foodorderapp.R
@@ -38,7 +37,7 @@ class MainPageFragment : Fragment(),SearchView.OnQueryTextListener {
     private var foodCartSet= mutableSetOf<FoodsCart>()
     private var foodSet = mutableSetOf<Foods>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_main_page, container, false)
         binding.mainPageFragment = this
         titleBarBinding = binding.include
@@ -53,7 +52,7 @@ class MainPageFragment : Fragment(),SearchView.OnQueryTextListener {
 
         viewModel.foodsList.observe(viewLifecycleOwner){
             if (it.isNotEmpty()){
-                adapter = FoodsAdapter(requireContext(),it,viewModel)
+                adapter = FoodsAdapter(requireContext(), it)
                 binding.foodsAdapter = adapter
                 foodSet.addAll(it)
             }else{

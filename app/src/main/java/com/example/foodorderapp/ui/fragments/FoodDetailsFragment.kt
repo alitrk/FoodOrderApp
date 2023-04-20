@@ -1,12 +1,11 @@
 package com.example.foodorderapp.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
@@ -14,13 +13,11 @@ import com.bumptech.glide.Glide
 import com.example.foodorderapp.R
 import com.example.foodorderapp.data.entity.FoodsCart
 import com.example.foodorderapp.databinding.FragmentFoodDetailsBinding
-import com.example.foodorderapp.ui.adapters.FoodsAdapter
 import com.example.foodorderapp.ui.viewmodel.FoodDetailsViewModel
 import com.example.foodorderapp.utils.navigate
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.math.absoluteValue
 
 @AndroidEntryPoint
 class FoodDetailsFragment : Fragment() {
@@ -32,7 +29,7 @@ class FoodDetailsFragment : Fragment() {
     private var cartSizeFood = ""
     private var foodCartSet= mutableSetOf<FoodsCart>()
     private lateinit var  userName: String
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_food_details, container, false)
         binding.foodDetailsFragment = this
         binding.foodDetailsToolbarTitle = "Details"
