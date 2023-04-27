@@ -1,61 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="mainPageToolbarTitle" type="String" />
-        <variable name="cartText" type="String" />
-        <variable name="mainPageFragment" type="com.example.foodorderapp.ui.fragments.MainPageFragment" />
-        <variable name="foodsAdapter" type="com.example.foodorderapp.ui.adapters.FoodsAdapter" />
+        <variable name="mainPageToolbarTitle" type="String"/>
+        <variable name="cartText" type="String"/>
+        <variable name="mainPageFragment" type="com.example.foodorderapp.ui.fragments.MainPageFragment"/>
+        <variable name="foodsAdapter" type="com.example.foodorderapp.ui.adapters.FoodsAdapter"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.fragment.AnasayfaFragment">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.fragment.AnasayfaFragment">
 
         <include
-            android:id="@+id/include"
-            layout="@layout/titlebar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:mainPageFragmentTitle="@{mainPageFragment}"
-            app:cartText="@{cartText}"/>
+                android:id="@+id/include"
+                layout="@layout/titlebar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:mainPageFragmentTitle="@{mainPageFragment}"
+                app:cartText="@{cartText}"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
-            android:background="@color/mainBackgroundColor"
-            android:adapter="@{foodsAdapter}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include" />
+                android:id="@+id/rv"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
+                android:background="@color/mainBackgroundColor"
+                android:adapter="@{foodsAdapter}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/include"/>
 
+        <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+                android:id="@+id/error_message"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:text="@string/error_message"
+                android:layout_marginEnd="32dp"
+                android:layout_marginStart="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        <Button
+                android:id="@+id/retry_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/retry_btn"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/error_message"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            app:srcCompat="@drawable/ic_account"
-            app:rippleColor="@color/foodDetailsPriceColor"
-            app:tint = "@color/buttonBackgroundColor"
-            android:layout_marginEnd="16dp"
-            app:borderWidth="0dp"
-            android:onClick="@{() -> mainPageFragment.fabOnClick(floatingActionButton)}"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:focusable="true"
-            android:backgroundTint="@color/foodDetailsPriceColor"/>
+                android:id="@+id/floatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                app:srcCompat="@drawable/ic_account"
+                app:rippleColor="@color/foodDetailsPriceColor"
+                app:tint="@color/buttonBackgroundColor"
+                android:layout_marginEnd="16dp"
+                app:borderWidth="0dp"
+                android:onClick="@{() -> mainPageFragment.fabOnClick(floatingActionButton)}"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:focusable="true"
+                android:backgroundTint="@color/foodDetailsPriceColor"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

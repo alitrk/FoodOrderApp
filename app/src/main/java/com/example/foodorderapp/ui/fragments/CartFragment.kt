@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,6 +15,7 @@ import com.example.foodorderapp.data.entity.FoodsCart
 import com.example.foodorderapp.databinding.FragmentCartBinding
 import com.example.foodorderapp.ui.adapters.FoodsCartAdapter
 import com.example.foodorderapp.ui.viewmodel.CartViewModel
+import com.example.foodorderapp.utils.Resource
 import com.example.foodorderapp.utils.navigate
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,45 +28,74 @@ class CartFragment : Fragment() {
     private var tempList = listOf<FoodsCart>()
     private var totalPrice = 0
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_cart, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cart, container, false)
         binding.cartFragment = this
-        viewModel.cartList.observe(viewLifecycleOwner){
-            if (it!=null){
-                val adapter = FoodsCartAdapter(requireContext(),it,viewModel)
-                binding.foodsCartAdapter = adapter
-                totalPrice(it)
-                tempList = it
-                binding.cartFragmentTotalPrice = totalPrice
+
+        viewModel.cartList.observe(viewLifecycleOwner) { resource ->
+            when (resource) {
+                is Resource.Loading -> {
+                    binding.progressBarCart.isVisible = true
+                }
+
+                is Resource.Success -> {
+                    val adapter = FoodsCartAdapter(requireContext(), resource.data, viewModel)
+                    binding.apply {
+                        foodsCartAdapter = adapter
+                        progressBarCart.isVisible = false
+                    }
+                    totalPrice(resource.data)
+                    binding.cartFragmentTotalPrice = totalPrice
+                    tempList = resource.data
+                }
+
+                is Resource.Error -> {
+                    if (tempList.size == 1 || tempList.isEmpty()) {
+                        // show empty state
+                        totalPrice = 0
+                        binding.apply {
+                            progressBarCart.isVisible = false
+                            errorMessageCart.isVisible = false
+                            retryBtnCart.isVisible = false
+                            rvCart.isVisible = false
+                        }
+
+                    } else {
+                        binding.apply {
+                            progressBarCart.isVisible = false
+                            errorMessageCart.isVisible = true
+                            retryBtnCart.isVisible = true
+                        }
+                    }
+                }
             }
         }
-
         return binding.root
     }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val tempViewModel:CartViewModel by viewModels()
+        val tempViewModel: CartViewModel by viewModels()
         viewModel = tempViewModel
 
     }
 
-    fun buttonOrderOnClick(view: View){
-        Navigation.navigate(view,R.id.action_cartFragment_to_orderFragment)
+    fun buttonOrderOnClick(view: View) {
+        Navigation.navigate(view, R.id.action_cartFragment_to_orderFragment)
         saveData()
-        for (i in tempList){
+        for (i in tempList) {
             viewModel.delete(i.sepet_yemek_id, i.kullanici_adi)
         }
     }
 
-    private fun totalPrice(list: List<FoodsCart>){
+    private fun totalPrice(list: List<FoodsCart>) {
         totalPrice = 0
-        for (i in list){
+        for (i in list) {
             totalPrice += (i.yemek_siparis_adet) * (i.yemek_fiyat)
         }
     }
 
-    private fun saveData(){
+    private fun saveData() {
         val sharedPreferences = requireContext().getSharedPreferences("shared preferences", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         val gson = Gson()
@@ -73,8 +104,8 @@ class CartFragment : Fragment() {
         editor.apply()
     }
 
-    fun closeOnClick(view: View){
-        Navigation.navigate(view,R.id.action_cartFragment_to_mainPageFragment)
+    fun closeOnClick(view: View) {
+        Navigation.navigate(view, R.id.action_cartFragment_to_mainPageFragment)
     }
 
 

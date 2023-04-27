@@ -3,6 +3,7 @@ package com.example.foodorderapp.retrofit
 import com.example.foodorderapp.data.entity.CrudResponse
 import com.example.foodorderapp.data.entity.FoodsCartResponse
 import com.example.foodorderapp.data.entity.FoodsResponse
+import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -25,7 +26,7 @@ interface FoodsDao {
     @POST("yemekler/sepettekiYemekleriGetir.php")
     @FormUrlEncoded
     suspend fun showCart(@Field("kullanici_adi") kullanici_adi: String
-    ): FoodsCartResponse
+    ): Response<FoodsCartResponse>
 
 
 

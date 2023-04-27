@@ -37,7 +37,7 @@ class FoodsCartAdapter (var mContext: Context,
 
     override fun onBindViewHolder(holder: CardCartViewHolder, position: Int) {
 
-        val foodCart = foodsList.get(position)
+        val foodCart = foodsList[position]
         val t = holder.binding
         t.foodCartObject = foodCart
 

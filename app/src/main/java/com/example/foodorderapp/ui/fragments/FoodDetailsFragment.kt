@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -14,10 +15,12 @@ import com.example.foodorderapp.R
 import com.example.foodorderapp.data.entity.FoodsCart
 import com.example.foodorderapp.databinding.FragmentFoodDetailsBinding
 import com.example.foodorderapp.ui.viewmodel.FoodDetailsViewModel
+import com.example.foodorderapp.utils.Resource
 import com.example.foodorderapp.utils.navigate
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FoodDetailsFragment : Fragment() {
@@ -43,11 +46,9 @@ class FoodDetailsFragment : Fragment() {
         showFoodImage(receivedFood.yemek_resim_adi)
 
         binding.totalPrice = totalPrice(orderNumber,receivedFood.yemek_fiyat)
-        viewModel.foodsCartList.observe(viewLifecycleOwner){
-            foodsCartListDetails = it
-            foodCartSet.addAll(it)
-            cartSizeFun(foodCartSet)
-        }
+
+        observeCartList()
+
 
         return binding.root
     }
@@ -62,6 +63,35 @@ class FoodDetailsFragment : Fragment() {
         val tempViewModel: FoodDetailsViewModel by viewModels()
         viewModel = tempViewModel
 
+    }
+
+    private fun observeCartList() {
+        lifecycleScope.launch {
+            viewModel.cartList.observe(viewLifecycleOwner) { resource ->
+                when (resource) {
+                    is Resource.Loading -> {
+                        //binding.progressBar.isVisible = false
+                    }
+
+                    is Resource.Success -> {
+                        binding.apply {
+                            //progressBar.isVisible = false
+                        }
+                        foodsCartListDetails = resource.data
+                        foodCartSet.addAll(resource.data)
+                        cartSizeFun(foodCartSet)
+                    }
+
+                    is Resource.Error -> {
+                        binding.apply {
+                            //progressBar.isVisible = false
+                            //errorMessage.isVisible = true
+                            //retryBtn.isVisible = true
+                        }
+                    }
+                }
+            }
+        }
     }
 
     fun btnMinusOnClick(){
@@ -108,10 +138,8 @@ class FoodDetailsFragment : Fragment() {
         }
         Snackbar.make(requireView(),"Added to cart successfully",Snackbar.LENGTH_LONG).show()
         Navigation.navigate(requireView(),R.id.action_foodDetailsFragment_to_mainPageFragment)
-
-
-
     }
+
     fun addToCardSimple(yemek_adi:String,
                         yemek_resim_adi:String,
                         yemek_fiyat:Int,
