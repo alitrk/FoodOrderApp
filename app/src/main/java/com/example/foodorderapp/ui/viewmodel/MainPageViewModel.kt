@@ -32,6 +32,10 @@ class MainPageViewModel @Inject constructor(private var frepo: FoodsRepository) 
     private var userName: String = auth.currentUser?.email.toString()
 
     init {
+        callInitFunctions()
+    }
+
+    fun callInitFunctions() {
         showFoods()
         showCart(userName)
     }

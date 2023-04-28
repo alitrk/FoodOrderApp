@@ -69,6 +69,7 @@
                 android:visibility="gone"
                 tools:visibility="visible"
                 android:layout_marginTop="16dp"
+                android:onClick="@{() -> cartFragment.retryButtonOnClickCart()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/error_message_cart"/>

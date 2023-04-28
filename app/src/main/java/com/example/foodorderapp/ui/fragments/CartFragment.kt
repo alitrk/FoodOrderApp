@@ -49,7 +49,7 @@ class CartFragment : Fragment() {
                 }
 
                 is Resource.Error -> {
-                    if (tempList.size == 1 || tempList.isEmpty()) {
+                    if (tempList.size == 1 || viewModel.isInternetAvailable(requireContext())) {
                         // show empty state
                         totalPrice = 0
                         binding.apply {
@@ -60,6 +60,7 @@ class CartFragment : Fragment() {
                         }
 
                     } else {
+                        totalPrice = 0
                         binding.apply {
                             progressBarCart.isVisible = false
                             errorMessageCart.isVisible = true
@@ -78,6 +79,14 @@ class CartFragment : Fragment() {
         val tempViewModel: CartViewModel by viewModels()
         viewModel = tempViewModel
 
+    }
+
+    fun retryButtonOnClickCart() {
+        viewModel.getShowCart()
+        binding.apply {
+            errorMessageCart.isVisible = false
+            retryBtnCart.isVisible = false
+        }
     }
 
     fun buttonOrderOnClick(view: View) {

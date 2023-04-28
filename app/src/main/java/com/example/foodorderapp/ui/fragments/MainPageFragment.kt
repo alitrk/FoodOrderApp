@@ -48,7 +48,7 @@ class MainPageFragment : Fragment(), SearchView.OnQueryTextListener {
         searchView.setOnQueryTextListener(this@MainPageFragment)
 
         observeFoodList()
-        //observeCartList()
+        observeCartList()
 
 
         return binding.root
@@ -77,6 +77,7 @@ class MainPageFragment : Fragment(), SearchView.OnQueryTextListener {
                             progressBar.isVisible = false
                         }
                         foodSet.addAll(resource.data)
+                        titleBarBinding.buttonSurpriseMe.isClickable = true
                     }
 
                     is Resource.Error -> {
@@ -86,11 +87,14 @@ class MainPageFragment : Fragment(), SearchView.OnQueryTextListener {
                             errorMessage.isVisible = true
                             retryBtn.isVisible = true
                         }
+                        titleBarBinding.buttonSurpriseMe.isClickable = false
+
                     }
                 }
             }
         }
     }
+
 
     private fun observeCartList() {
         lifecycleScope.launch {
@@ -109,10 +113,10 @@ class MainPageFragment : Fragment(), SearchView.OnQueryTextListener {
                     }
 
                     is Resource.Error -> {
-                        binding.apply {
-                            progressBar.isVisible = false
-                            errorMessage.isVisible = true
-                            retryBtn.isVisible = true
+                        if (foodCartSet.size == 1 || foodCartSet.isEmpty()) {
+                            // show empty state
+                            binding.cartText = "0"
+
                         }
                     }
                 }
@@ -126,6 +130,14 @@ class MainPageFragment : Fragment(), SearchView.OnQueryTextListener {
 
     fun fabOnClick(view: View) {
         Navigation.navigate(view, R.id.action_mainPageFragment_to_accountFragment)
+    }
+
+    fun retryOnClick() {
+        viewModel.callInitFunctions()
+        binding.apply {
+            errorMessage.isVisible = false
+            retryBtn.isVisible = false
+        }
     }
 
     fun surpriseMeOnClick(view: View) {
