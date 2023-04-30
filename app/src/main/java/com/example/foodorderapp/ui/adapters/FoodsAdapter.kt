@@ -15,33 +15,34 @@ import com.example.foodorderapp.ui.fragments.MainPageFragmentDirections
 import com.example.foodorderapp.utils.navigate
 
 class FoodsAdapter(
-    var mContext: Context,
-    var foodsList: List<Foods>
-)
-    : RecyclerView.Adapter<FoodsAdapter.CardViewHolder>() {
+    private var mContext: Context,
+    private var foodsList: List<Foods>
+) : RecyclerView.Adapter<FoodsAdapter.CardViewHolder>() {
 
-    inner class CardViewHolder(binding:FoodCardDesignBinding) : RecyclerView.ViewHolder(binding.root){
-        var binding:FoodCardDesignBinding
+    inner class CardViewHolder(binding: FoodCardDesignBinding) : RecyclerView.ViewHolder(binding.root) {
+        var binding: FoodCardDesignBinding
+
         init {
             this.binding = binding
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
-        val binding:FoodCardDesignBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext),R.layout.food_card_design ,parent, false)
+        val binding: FoodCardDesignBinding =
+            DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.food_card_design, parent, false)
         return CardViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        val food = foodsList.get(position)
+        val food = foodsList[position]
         val t = holder.binding
         t.foodObject = food
 
-        showFoodImage(food.yemek_resim_adi,t)
+        showFoodImage(food.yemek_resim_adi, t)
 
         t.recyclerViewRowFood.setOnClickListener {
             val navigate = MainPageFragmentDirections.actionMainPageFragmentToFoodDetailsFragment(food = food)
-            Navigation.navigate(it,navigate)
+            Navigation.navigate(it, navigate)
         }
     }
 
@@ -49,13 +50,13 @@ class FoodsAdapter(
         return foodsList.size
     }
 
-    private fun showFoodImage(foodImageName:String, binding: FoodCardDesignBinding){
+    private fun showFoodImage(foodImageName: String, binding: FoodCardDesignBinding) {
         val url = "http://kasimadalan.pe.hu/yemekler/resimler/$foodImageName"
-        Glide.with(mContext).load(url).override(450,450).into(binding.imageViewFood)
+        Glide.with(mContext).load(url).override(450, 450).into(binding.imageViewFood)
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setFilteredList(filteredList: List<Foods>){
+    fun setFilteredList(filteredList: List<Foods>) {
         foodsList = filteredList
         notifyDataSetChanged()
 

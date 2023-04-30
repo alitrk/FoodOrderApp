@@ -17,15 +17,16 @@ class OrderFragment : Fragment() {
     private lateinit var binding: FragmentOrderBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_order, container, false)
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_order, container, false)
         binding.orderFragment = this
 
         return binding.root
     }
 
-    fun buttonContinueOnClick(view: View){
-        Navigation.navigate(view,R.id.action_orderFragment_to_mainPageFragment)
+    fun buttonContinueOnClick(view: View) {
+        Navigation.navigate(view, R.id.action_orderFragment_to_mainPageFragment)
     }
 
 }

@@ -19,12 +19,12 @@ import com.google.firebase.auth.FirebaseAuth
 
 class AccountFragment : Fragment() {
 
-    private lateinit var auth : FirebaseAuth
-    private lateinit var googleSignInClient : GoogleSignInClient
+    private lateinit var auth: FirebaseAuth
+    private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var binding: FragmentAccountBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_account, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_account, container, false)
         binding.accountFragment = this
         auth = FirebaseAuth.getInstance()
         binding.userEmail = auth.currentUser?.email.toString()
@@ -34,25 +34,22 @@ class AccountFragment : Fragment() {
             .requestEmail()
             .build()
 
-
-
-
-        googleSignInClient = GoogleSignIn.getClient(requireActivity(),gso)
+        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
 
         return binding.root
     }
 
-    fun logOutOnClick(view: View){
+    fun logOutOnClick(view: View) {
 
-        val snackbar = Snackbar.make(view,"Are you sure you want to log out ?", Snackbar.LENGTH_LONG)
-            .setAction("Yes"){
+        val snackBar = Snackbar.make(view, "Are you sure you want to log out ?", Snackbar.LENGTH_LONG)
+            .setAction("Yes") {
                 auth.signOut()
                 googleSignInClient.signOut()
-                Navigation.navigate(view,R.id.action_accountFragment_to_signInFragment)
+                Navigation.navigate(view, R.id.action_accountFragment_to_signInFragment)
             }
-        snackbar.setActionTextColor(Color.WHITE)
-        snackbar.show()
+        snackBar.setActionTextColor(Color.WHITE)
+        snackBar.show()
 
     }
 }

@@ -20,7 +20,6 @@ import com.example.foodorderapp.utils.navigate
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class CartFragment : Fragment() {
     private lateinit var binding: FragmentCartBinding
@@ -49,7 +48,8 @@ class CartFragment : Fragment() {
                 }
 
                 is Resource.Error -> {
-                    if (tempList.size == 1 || viewModel.isInternetAvailable(requireContext())) {
+                    viewModel.checkInternetConnection(requireContext())
+                    if (tempList.size == 1 || viewModel.isInternetConnected.value == true) {
                         // show empty state
                         totalPrice = 0
                         binding.apply {

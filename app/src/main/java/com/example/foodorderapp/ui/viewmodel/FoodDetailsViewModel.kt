@@ -1,5 +1,9 @@
 package com.example.foodorderapp.ui.viewmodel
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,22 +19,51 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FoodDetailsViewModel @Inject constructor(private var frepo: FoodsRepository): ViewModel() {
+class FoodDetailsViewModel @Inject constructor(private var frepo: FoodsRepository) : ViewModel() {
 
     private val _cartList = MutableLiveData<Resource<List<FoodsCart>>>()
     val cartList: LiveData<Resource<List<FoodsCart>>>
         get() = _cartList
 
-    private var auth : FirebaseAuth = FirebaseAuth.getInstance()
+    private val _isInternetConnected = MutableLiveData<Boolean>()
+    val isInternetConnected: LiveData<Boolean> = _isInternetConnected
+
+    fun checkInternetConnection(context: Context) {
+        val isConnected = isInternetAvailable(context)
+        _isInternetConnected.value = isConnected
+    }
+
+    private fun isInternetAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val networkCapabilities = connectivityManager.activeNetwork ?: return false
+            val activeNetwork = connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
+            return when {
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                else -> false
+            }
+        } else {
+            val networkInfo = connectivityManager.activeNetworkInfo
+            return networkInfo != null && networkInfo.isConnectedOrConnecting
+        }
+    }
+
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+
     init {
         val userName = auth.currentUser?.email.toString()
         showCart(userName)
     }
-    fun addToCart(yemek_adi:String,
-                  yemek_resim_adi:String,
-                  yemek_fiyat:Int,
-                  yemek_siparis_adet:Int,
-                  kullanici_adi:String){
+
+    fun addToCart(
+        yemek_adi: String,
+        yemek_resim_adi: String,
+        yemek_fiyat: Int,
+        yemek_siparis_adet: Int,
+        kullanici_adi: String
+    ) {
         CoroutineScope(Dispatchers.Main).launch {
             frepo.addToCart(yemek_adi, yemek_resim_adi, yemek_fiyat, yemek_siparis_adet, kullanici_adi)
         }
@@ -42,8 +75,8 @@ class FoodDetailsViewModel @Inject constructor(private var frepo: FoodsRepositor
         }
     }
 
-    fun delete(sepet_yemek_id:Int, kullanici_adi: String){
-        viewModelScope.launch{
+    fun delete(sepet_yemek_id: Int, kullanici_adi: String) {
+        viewModelScope.launch {
             frepo.delete(sepet_yemek_id, kullanici_adi)
             showCart(kullanici_adi)
         }

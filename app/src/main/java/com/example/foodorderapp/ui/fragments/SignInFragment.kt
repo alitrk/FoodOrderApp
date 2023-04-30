@@ -26,11 +26,11 @@ class SignInFragment : Fragment() {
 
     private lateinit var binding: FragmentSignInBinding
 
-    private lateinit var auth : FirebaseAuth
-    private lateinit var googleSignInClient : GoogleSignInClient
+    private lateinit var auth: FirebaseAuth
+    private lateinit var googleSignInClient: GoogleSignInClient
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_sign_in, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_in, container, false)
         binding.singInFragment = this
 
         auth = FirebaseAuth.getInstance()
@@ -41,7 +41,7 @@ class SignInFragment : Fragment() {
             .requestEmail()
             .build()
 
-        googleSignInClient = GoogleSignIn.getClient(requireActivity() , gso)
+        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
         return binding.root
 
@@ -49,12 +49,12 @@ class SignInFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        if(auth.currentUser!=null){
-            Navigation.navigate(view,R.id.action_signInFragment_to_mainPageFragment)
+        if (auth.currentUser != null) {
+            Navigation.navigate(view, R.id.action_signInFragment_to_mainPageFragment)
         }
     }
 
-    fun buttonSignInOnClick(){
+    fun buttonSignInOnClick() {
         signInGoogle()
     }
 
@@ -64,9 +64,8 @@ class SignInFragment : Fragment() {
         launcher.launch(signInIntent)
     }
 
-    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-            result ->
-        if (result.resultCode == Activity.RESULT_OK){
+    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
 
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             handleResults(task)
@@ -74,23 +73,23 @@ class SignInFragment : Fragment() {
     }
 
     private fun handleResults(task: Task<GoogleSignInAccount>) {
-        if (task.isSuccessful){
-            val account : GoogleSignInAccount? = task.result
-            if (account != null){
+        if (task.isSuccessful) {
+            val account: GoogleSignInAccount? = task.result
+            if (account != null) {
                 updateUI(account)
             }
-        }else{
-            Toast.makeText(requireActivity(), task.exception.toString() , Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(requireActivity(), task.exception.toString(), Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun updateUI(account: GoogleSignInAccount) {
-        val credential = GoogleAuthProvider.getCredential(account.idToken , null)
+        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         auth.signInWithCredential(credential).addOnCompleteListener {
-            if (it.isSuccessful){
-                Navigation.navigate(requireView(),R.id.action_signInFragment_to_mainPageFragment)
-            }else{
-                Toast.makeText(requireActivity(), it.exception.toString() , Toast.LENGTH_SHORT).show()
+            if (it.isSuccessful) {
+                Navigation.navigate(requireView(), R.id.action_signInFragment_to_mainPageFragment)
+            } else {
+                Toast.makeText(requireActivity(), it.exception.toString(), Toast.LENGTH_SHORT).show()
             }
         }
     }

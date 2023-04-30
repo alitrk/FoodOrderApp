@@ -16,19 +16,19 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideFoodsRepository(fds: FoodsDataSource): FoodsRepository{
+    fun provideFoodsRepository(fds: FoodsDataSource): FoodsRepository {
         return FoodsRepository(fds)
     }
 
     @Provides
     @Singleton
-    fun provideFoodsDataSource(fdao: FoodsDao): FoodsDataSource{
+    fun provideFoodsDataSource(fdao: FoodsDao): FoodsDataSource {
         return FoodsDataSource(fdao)
     }
 
     @Provides
     @Singleton
-    fun provideKisilerDao() : FoodsDao {
+    fun provideFoodsDao(): FoodsDao {
         return ApiUtils.getFoodsDao()
     }
 

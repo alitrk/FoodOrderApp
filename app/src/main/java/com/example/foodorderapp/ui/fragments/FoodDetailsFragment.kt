@@ -26,17 +26,17 @@ import kotlinx.coroutines.launch
 class FoodDetailsFragment : Fragment() {
     private lateinit var binding: FragmentFoodDetailsBinding
     private lateinit var viewModel: FoodDetailsViewModel
-    private lateinit var auth : FirebaseAuth
+    private lateinit var auth: FirebaseAuth
     private var foodsCartListDetails: List<FoodsCart> = listOf()
     private var orderNumber = 1
     private var cartSizeFood = ""
-    private var foodCartSet= mutableSetOf<FoodsCart>()
-    private lateinit var  userName: String
+    private var foodCartSet = mutableSetOf<FoodsCart>()
+    private lateinit var userName: String
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_food_details, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_food_details, container, false)
         binding.foodDetailsFragment = this
         binding.foodDetailsToolbarTitle = "Details"
-        val bundle:FoodDetailsFragmentArgs by navArgs()
+        val bundle: FoodDetailsFragmentArgs by navArgs()
         val receivedFood = bundle.food
         binding.foodObject = receivedFood
         auth = FirebaseAuth.getInstance()
@@ -45,7 +45,7 @@ class FoodDetailsFragment : Fragment() {
         binding.foodDetailsNumber = orderNumber
         showFoodImage(receivedFood.yemek_resim_adi)
 
-        binding.totalPrice = totalPrice(orderNumber,receivedFood.yemek_fiyat)
+        binding.totalPrice = totalPrice(orderNumber, receivedFood.yemek_fiyat)
 
         observeCartList()
 
@@ -94,71 +94,103 @@ class FoodDetailsFragment : Fragment() {
         }
     }
 
-    fun btnMinusOnClick(){
-        if (orderNumber>1){
+    fun btnMinusOnClick() {
+        if (orderNumber > 1) {
             orderNumber -= 1
             binding.foodDetailsNumber = orderNumber
-            binding.totalPrice = totalPrice(orderNumber,binding.foodObject!!.yemek_fiyat)
-        }else{
+            binding.totalPrice = totalPrice(orderNumber, binding.foodObject!!.yemek_fiyat)
+        } else {
             Snackbar.make(requireView(), "This number cannot be less than 1", Snackbar.LENGTH_LONG).show()
         }
     }
 
-    fun btnPlusOnClick(){
+    fun btnPlusOnClick() {
         orderNumber += 1
         binding.foodDetailsNumber = orderNumber
-        binding.totalPrice = totalPrice(orderNumber,binding.foodObject!!.yemek_fiyat)
+        binding.totalPrice = totalPrice(orderNumber, binding.foodObject!!.yemek_fiyat)
     }
 
-    fun addToCard(yemek_adi:String,
-                  yemek_resim_adi:String,
-                  yemek_fiyat:Int,
-                  yemek_siparis_adet:Int,
-                  kullanici_adi:String){
+    fun addToCart(
+        yemek_adi: String,
+        yemek_resim_adi: String,
+        yemek_fiyat: Int,
+        yemek_siparis_adet: Int,
+        kullanici_adi: String
+    ) {
+        // check if internet connection available
+        viewModel.checkInternetConnection(requireContext())
 
-        var tempSum = 0
+        if (viewModel.isInternetConnected.value == true) {
+            // initialize temporary and total sum variables to keep track of item quantity
+            var tempSum = 0
+            val totalSum: Int
+
+            // check if cart is already populated with any items
+            if (foodsCartListDetails.isNotEmpty()) {
+                // if cart has items, iterate through them and check if the item already exists
+                for (food in foodsCartListDetails) {
+                    if (food.yemek_adi == yemek_adi) {
+                        // if the item already exists, add its quantity to the temporary sum
+                        tempSum += food.yemek_siparis_adet
+                    }
+                }
+            }
+
+            // if the item is not already in the cart
+            if (tempSum == 0) {
+                // add it to the cart with the specified quantity
+                viewModel.addToCart(yemek_adi, yemek_resim_adi, yemek_fiyat, yemek_siparis_adet, kullanici_adi)
+            } else {
+                // if the item already exists, delete all instances of it from the cart and
+                // add it back with the total quantity
+                totalSum = deleteIfExists(yemek_adi, kullanici_adi) + tempSum
+                addToCartSimple(yemek_adi, yemek_resim_adi, yemek_fiyat, totalSum, kullanici_adi)
+            }
+
+            // display a message to the user that the item was added to the cart
+            Snackbar.make(requireView(), "Added to cart successfully", Snackbar.LENGTH_LONG).show()
+
+            // navigate back to the main page fragment
+            Navigation.navigate(requireView(), R.id.action_foodDetailsFragment_to_mainPageFragment)
+        } else {
+            Snackbar.make(requireView(), "Check your internet connection and try again later.", Snackbar.LENGTH_LONG)
+                .show()
+        }
+
+    }
+
+    private fun deleteIfExists(yemek_adi: String, kullanici_adi: String): Int {
         var sum = 0
-        if (foodsCartListDetails.isNotEmpty()){
-            for (i in foodsCartListDetails){
-                if(i.yemek_adi == yemek_adi){
-                    tempSum += i.yemek_siparis_adet
-                }
+        for (i in foodsCartListDetails) {
+            if (i.yemek_adi == yemek_adi) {
+                viewModel.delete(i.sepet_yemek_id, kullanici_adi)
+                sum += i.yemek_siparis_adet
             }
         }
-        if (tempSum == 0){
-            viewModel.addToCart(yemek_adi, yemek_resim_adi, yemek_fiyat, yemek_siparis_adet, kullanici_adi)
-        }else{
-            for (i in foodsCartListDetails){
-                if(i.yemek_adi == yemek_adi){
-                    viewModel.delete(i.sepet_yemek_id, i.kullanici_adi)
-                    sum += i.yemek_siparis_adet
-                }
-            }
-            addToCardSimple(yemek_adi,yemek_resim_adi, yemek_fiyat, (sum+yemek_siparis_adet), kullanici_adi)
-        }
-        Snackbar.make(requireView(),"Added to cart successfully",Snackbar.LENGTH_LONG).show()
-        Navigation.navigate(requireView(),R.id.action_foodDetailsFragment_to_mainPageFragment)
+        return sum
     }
 
-    fun addToCardSimple(yemek_adi:String,
-                        yemek_resim_adi:String,
-                        yemek_fiyat:Int,
-                        yemek_siparis_adet:Int,
-                        kullanici_adi:String){
+    fun addToCartSimple(
+        yemek_adi: String,
+        yemek_resim_adi: String,
+        yemek_fiyat: Int,
+        yemek_siparis_adet: Int,
+        kullanici_adi: String
+    ) {
         viewModel.addToCart(yemek_adi, yemek_resim_adi, yemek_fiyat, yemek_siparis_adet, kullanici_adi)
     }
 
-    private fun showFoodImage(foodImageName:String){
+    private fun showFoodImage(foodImageName: String) {
         val url = "http://kasimadalan.pe.hu/yemekler/resimler/$foodImageName"
-        Glide.with(requireContext()).load(url).override(800,800).into(binding.imageViewFoodDetails)
+        Glide.with(requireContext()).load(url).override(800, 800).into(binding.imageViewFoodDetails)
     }
 
-    private fun totalPrice(orderNumber:Int, foodPrice:Int): Int{
-        return orderNumber*foodPrice
+    private fun totalPrice(orderNumber: Int, foodPrice: Int): Int {
+        return orderNumber * foodPrice
     }
 
-    fun cartOnClickDetails(view:View){
-        Navigation.navigate(view,R.id.action_foodDetailsFragment_to_cartFragment)
+    fun cartOnClickDetails(view: View) {
+        Navigation.navigate(view, R.id.action_foodDetailsFragment_to_cartFragment)
     }
 
 }

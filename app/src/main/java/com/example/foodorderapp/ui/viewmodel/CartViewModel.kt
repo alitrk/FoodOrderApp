@@ -23,6 +23,10 @@ class CartViewModel @Inject constructor(private var frepo: FoodsRepository) : Vi
     val cartList: LiveData<Resource<List<FoodsCart>>>
         get() = _cartList
 
+    private val _isInternetConnected = MutableLiveData<Boolean>()
+    val isInternetConnected: LiveData<Boolean> = _isInternetConnected
+
+
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private var userName: String = auth.currentUser?.email.toString()
 
@@ -59,7 +63,12 @@ class CartViewModel @Inject constructor(private var frepo: FoodsRepository) : Vi
         }
     }
 
-    fun isInternetAvailable(context: Context): Boolean {
+    fun checkInternetConnection(context: Context) {
+        val isConnected = isInternetAvailable(context)
+        _isInternetConnected.value = isConnected
+    }
+
+    private fun isInternetAvailable(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val networkCapabilities = connectivityManager.activeNetwork ?: return false

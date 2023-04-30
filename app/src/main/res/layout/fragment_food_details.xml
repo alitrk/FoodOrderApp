@@ -135,7 +135,7 @@
                     android:layout_height="54dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="24dp"
-                    android:onClick="@{() -> foodDetailsFragment.addToCard(foodObject.yemek_adi, foodObject.yemek_resim_adi, foodObject.yemek_fiyat, foodDetailsNumber, userName)}"
+                    android:onClick="@{() -> foodDetailsFragment.addToCart(foodObject.yemek_adi, foodObject.yemek_resim_adi, foodObject.yemek_fiyat, foodDetailsNumber, userName)}"
                     android:paddingVertical="12dp"
                     android:text='@{"Add to Cart" + "       " + totalPrice + "₺"}'
                     tools:text = "Add to Cart           35₺"

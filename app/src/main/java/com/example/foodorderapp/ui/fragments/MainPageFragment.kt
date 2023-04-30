@@ -83,6 +83,7 @@ class MainPageFragment : Fragment(), SearchView.OnQueryTextListener {
                     is Resource.Error -> {
                         // Show error message
                         binding.apply {
+                            errorMessage.text = resource.message
                             progressBar.isVisible = false
                             errorMessage.isVisible = true
                             retryBtn.isVisible = true
