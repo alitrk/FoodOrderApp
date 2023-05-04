@@ -2,7 +2,7 @@
 
 ## Description
 
-The FoodOrderApp project uses MVVM architecture and features displaying dishes, adding them to cart, and editing the cart. The implementation of these features uses Retrofit, Hilt, Data Binding, and Glide libraries, with data provided by a dummy API. The application also includes Firebase Authentication for user login.
+This is a FoodOrderApp project which uses the MVVM architecture and includes features such as displaying dishes, adding them to cart, and editing the cart. These features are implemented using Retrofit, Hilt, Data Binding, and Glide libraries, with data provided by a dummy API. The application also includes Firebase Authentication for user login.
 
 ## Features
 
